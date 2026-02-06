@@ -4,7 +4,7 @@ Agent-based simulation of fox-rabbit dynamics with seasonal environmental forcin
 
 ## Overview
 
-This project implements a spatially-explicit predator-prey model where populations navigate through annual seasonal cycles. Unlike classical Lotka-Volterra models that assume constant environmental parameters, this simulation incorporates dynamic seasonal effects that alter metabolism rates and resource availability.
+This project implements a predator-prey model where populations navigate through annual seasonal cycles. Unlike classical Lotka-Volterra models that assume constant environmental parameters, this simulation incorporates dynamic seasonal effects that alter metabolism rates and resource availability.
 
 ### Key Features
 
@@ -72,10 +72,9 @@ seasonal-predator-prey/
 Based on theoretical predictions:
 
 1. **Seasonal Population Cycles**: Annual patterns with spring recovery, summer peaks, fall decline, and winter bottlenecks
-2. **Increased Oscillation Amplitude**: 30-50% higher peak-to-trough variance compared to non-seasonal baselines
-3. **Winter as Limiting Factor**: Populations with insufficient energy reserves entering winter face extinction cascades
-4. **Foraging Efficiency**: Hunger-threshold behavior reduces predation mortality by 15-20% during productive seasons
-5. **Spatial Clustering**: Winter resource scarcity drives aggregation; summer abundance enables dispersal
+2. **Increased Oscillation Amplitude**: higher peak-to-trough variance compared to non-seasonal baselines
+3. **Winter as Limiting Factor**: Populations with insufficient energy reserves entering winter face extinction
+5. **Spatial Clustering**: Winter resource scarcity drives rabbit aggregation near food nodes; summer abundance enables dispersal
 
 ## Data Collection
 
@@ -126,3 +125,5 @@ Spring 2025
 2. Murray, J.D. (2002). *Mathematical Biology I: An Introduction* (3rd ed.). Springer.
 3. Volterra, V. (1926). Fluctuations in the abundance of a species considered mathematically. *Nature*, 118(2972), 558-560.
 4. Wilensky, U. (1997). NetLogo Wolf Sheep Predation model. Northwestern University.
+
+This markdown document was formatted with help from Claude by Anthropic.
