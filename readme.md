@@ -35,8 +35,9 @@ pip install -r requirements.txt
 Run the main script to start a quick 20-step simulation checking agent dynamics and output logs. Outputs (snapshots) will be saved to the `output/` folder.
 
 ```bash
-python src/simulation.py --steps 50
+python src/simulation.py --steps 20
 ```
+Then change steps to 1000+ to simulate a year or longer.
 
 *Expected behavior*: The console will print the sizes of the fox and rabbit populations along with grass patches at each timestep, and png screenshots will appear in the output directory.
 
