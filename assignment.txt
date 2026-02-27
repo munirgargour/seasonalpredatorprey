@@ -1,0 +1,140 @@
+CS 4632 Modeling and Simulation Milestone 2
+CS 4632 Modeling and Simulation
+Milestone 2: Initial Implementation
+Department of Computer Science
+College of Computing and Software Engineering
+Kennesaw State University
+KSU-CCSE-CS
+1
+CS 4632 Modeling and Simulation Milestone 2
+1 Overview
+This milestone represents your first major code deliverable. By now, you should have transformed
+your proposal into working code that demonstrates the core functionality of your simulation. This
+is a checkpoint to ensure you’re on track for successful project completion.
+Purpose of M2
+• Verify that implementation has begun substantively
+• Ensure your code matches your proposed design
+• Identify any pivots or adjustments needed early
+• Demonstrate progress toward your simulation goals
+2 Deliverables
+2.1 GitHub Repository
+Your repository should now contain:
+Repository Requirements
+• Source Code
+– Core simulation logic implemented
+– At least 2 of your proposed models/algorithms coded
+– Basic entity classes/structures created
+– Initial data collection mechanisms
+• Project Structure
+– Logical organization of files/folders
+– Appropriate .gitignore for your language
+– Dependencies documented (requirements.txt, package.json, etc.)
+– Build/run instructions that work
+• Version Control Evidence
+– Multiple meaningful commits (not just one large commit)
+– Commit messages that explain changes
+– Evidence of iterative development
+2.2 README Documentation
+Update your README.md to include:
+• Project Status
+2
+CS 4632 Modeling and Simulation Milestone 2
+– What’s implemented so far
+– What’s still to come
+– Any changes from original proposal
+• Installation Instructions
+– Dependencies and versions
+– Step-by-step setup guide
+– Troubleshooting common issues
+• Usage
+– How to run the simulation
+– Command-line arguments or configuration
+– Expected output/behavior
+• Architecture Overview
+– Brief description of main components
+– How they map to your UML design
+– Any architectural changes and why
+2.3 Project Management Board
+Set up and utilize a project management board to track your progress:
+Project Board Requirements
+• Platform: GitHub Projects, Trello, or similar (must be publicly viewable)
+• Board Structure:
+– To Do / In Progress / Done columns (minimum)
+– Issues/tasks for each major component
+– Clear task descriptions
+• Current Status:
+– Show your project board with To Do, In Progress, and Done columns
+– Demonstrate task organization and progress tracking
+– Issues should reflect your actual development work
+2.4 Progress Documentation
+Submit a single PDF document (2-4 pages) containing:
+1. Project Board Screenshots
+• Overview of your board showing all columns
+3
+CS 4632 Modeling and Simulation Milestone 2
+• List of issue numbers and titles with current status
+• Brief description of completed vs. in-progress work
+2. Implementation Evidence
+• 3-5 screenshots of your simulation running
+• Console output or GUI showing core functionality
+• Brief caption for each image explaining what it shows
+3. Status Summary (1-2 paragraphs)
+• Current implementation status
+• Key accomplishments since M1
+• Challenges and solutions
+• Next steps and timeline
+3 Implementation Expectations
+Your code should demonstrate progress on core functionality:
+Development Status Indicators
+• Simulation framework established
+• Core components implemented and functional
+• Model implementation progress shown
+• Data collection mechanisms in development
+• Configuration and parameter systems started
+• Version control history shows iterative development
+This milestone serves as a development checkpoint. The focus is on demonstrating steady
+progress and professional project management practices.
+4 Evaluation Approach
+Review Focus Areas
+This milestone evaluates:
+• Development progress and project trajectory
+• Alignment between implementation and proposal
+• Project organization and management practices
+• Code functionality and architecture decisions
+• Professional documentation and communication
+4
+CS 4632 Modeling and Simulation Milestone 2
+The review process mirrors professional software development checkpoints, focusing on progress
+documentation and project health rather than feature completion.
+5 Submission Requirements
+5.1 What to Submit
+1. Repository URL in D2L comment box
+2. Project Board URL in D2L comment box
+3. Progress Documentation PDF: CS4632 FirstName LastName M2.pdf
+4. Updated README in your repository
+All URLs should be publicly accessible for grading.
+6 Tips for Success
+Best Practices
+• Use Your Project Board: Update it regularly - it helps you stay organized
+• Commit Often: Show your development process through git history
+• Test Your Setup: Ensure someone else could clone and run your code
+• Document Changes: If you pivot from M1, explain why in your README
+Professional Development Note
+This milestone simulates a typical development status report in industry settings. Project
+boards, progress documentation, and clear communication of technical status are standard
+practices in software development teams.
+7 Looking Ahead
+This milestone sets the foundation for:
+• M3: Complete implementation with all features
+• M4: Analysis and validation of results
+• M5: Final report and presentation
+Use feedback from M2 to adjust your approach for the remaining milestones.
+5
+CS 4632 Modeling and Simulation Milestone 2
+8 Grading Notes
+• This is primarily a progress check
+• Full functionality is NOT expected yet
+• Focus is on demonstrating substantive progress
+• Late penalty: 5 points per day
+• Most recent submission is kept
+6
