@@ -7,11 +7,11 @@ This repository contains the ongoing Milestone 2 implementation of the Seasonal 
 - Simulation framework established.
 - Core classes (`Animal`, `Rabbit`, `Fox`, `Environment`) implemented.
 - **Algorithm 1 Implemented**: Hunger-Driven Foraging (Rabbits search for food when their energy drops below 90% capacity).
-- **Algorithm 2 Implemented**: Predator Pursuit (Foxes query for prey within `R_v=10.0` range using `scipy.spatial.KDTree` and pursue).
+- **Algorithm 2 Implemented**: Predator Pursuit (Foxes query for prey within `R_v=30.0` range using `scipy.spatial.KDTree` and pursue).
+- **Algorithm 3 Implemented**: Reproduction Mode (Animals seek mates and reproduce when energy exceeds thresholds: >50.0 for Rabbits, >95.0 for Foxes).
 - Basic 2D visualization via Matplotlib to verify functionality.
 
 **Still to Come (Milestone 3+):**
-- Complex breeding patterns with energy expenditures and cooldown thresholds.
 - Four-season dynamics (metabolism and growth-rate multipliers depending on Spring/Summer/Fall/Winter).
 - Continuous spatial torus wrap-around visuals and long-phase multi-year tracking and analytics charts.
 
