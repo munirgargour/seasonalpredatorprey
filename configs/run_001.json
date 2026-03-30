@@ -1,0 +1,19 @@
+{
+  "run_id": "001",
+  "description": "Baseline — all default parameters",
+  "seed": 42,
+  "steps": 1000,
+  "steps_per_season": 250,
+  "num_rabbits": 100,
+  "num_foxes": 5,
+  "initial_grass": 200,
+  "base_grass_spawn_rate": 8,
+  "width": 500.0,
+  "height": 500.0,
+  "seasons": {
+    "Spring": {"metabolism_mult": 0.8,  "grass_mult": 2.0},
+    "Summer": {"metabolism_mult": 1.0,  "grass_mult": 1.5},
+    "Fall":   {"metabolism_mult": 1.1,  "grass_mult": 0.7},
+    "Winter": {"metabolism_mult": 1.4,  "grass_mult": 0.4}
+  }
+}

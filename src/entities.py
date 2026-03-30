@@ -15,15 +15,15 @@ class Animal:
         self.position[0] = self.position[0] % bounds[0]
         self.position[1] = self.position[1] % bounds[1]
 
-    def metabolize(self):
-        self.energy -= self.base_metabolism
+    def metabolize(self, multiplier=1.0):
+        self.energy -= self.base_metabolism * multiplier
         if self.energy <= 0:
             self.is_alive = False
 
 class Rabbit(Animal):
     def __init__(self, x, y):
-        # Max Energy = 100, Initial Energy = 49, Movement Speed = 10.0, Base Metabolism = 0.25
-        super().__init__(x, y, max_energy=100.0, initial_energy=49.0, speed=10.0, base_metabolism=0.25)
+        # Max Energy = 75, Initial Energy = 37, Movement Speed = 13.0, Base Metabolism = 0.25
+        super().__init__(x, y, max_energy=75.0, initial_energy=37.0, speed=13.0, base_metabolism=0.25)
         self.foraging_radius = 25.0  # Increased 5x from 5.0
         self.energy_per_grass = 10.0
 
@@ -36,10 +36,10 @@ class Rabbit(Animal):
             return
 
         # 1. Check Reproduction Mode First
-        if self.energy > 50.0:
+        if self.energy > 35.0:
             # Look for a mate
             nearby_rabbits = env.get_rabbits_in_radius(self.position, radius=100.0) # Increased 5x from 20.0
-            potential_mates = [r for r in nearby_rabbits if r is not self and r.energy > 50.0]
+            potential_mates = [r for r in nearby_rabbits if r is not self and r.energy > 35.0]
             
             if potential_mates:
                 # Find nearest mate
@@ -54,14 +54,14 @@ class Rabbit(Animal):
                     move_vector = (direction / dist) * self.speed
                 
                 self.move(move_vector, env.bounds)
-                self.metabolize()
+                self.metabolize(env.metabolism_mult)
                 self.reproduce(env, potential_mates)
                 return
 
         # 2. Algorithm 1: Hunger-Driven Foraging
         hunger = self.assess_hunger()
-        
-        if hunger > 0.10: # Energy < 90%
+
+        if self.energy < self.max_energy - self.energy_per_grass: # Only forage if eating won't overflow
             # Find nearest grass within radius
             nearest_grass = env.get_nearest_grass(self.position, self.foraging_radius)
             if nearest_grass is not None:
@@ -88,19 +88,19 @@ class Rabbit(Animal):
             move_vector = np.array([np.cos(angle), np.sin(angle)]) * self.speed
 
         self.move(move_vector, env.bounds)
-        self.metabolize()
+        self.metabolize(env.metabolism_mult)
         self.reproduce(env, None)
-        
+
     def reproduce(self, env, potential_mates):
         from entities import Rabbit
-        # Reproduction: E > 50, success probability 0.5, cost 20
-        if self.energy > 50.0:
+        # Reproduction: E > 35, success probability 0.5, cost 20
+        if self.energy > 35.0:
             if potential_mates is None:
                 nearby_rabbits = env.get_rabbits_in_radius(self.position, radius=25.0) # Increased 5x
-                potential_mates = [r for r in nearby_rabbits if r is not self and r.energy > 50.0]
-            
+                potential_mates = [r for r in nearby_rabbits if r is not self and r.energy > 35.0]
+
             # Re-filter for strict distance just in case
-            potential_mates = [m for m in potential_mates if np.linalg.norm(m.position - self.position) <= 10.0]
+            potential_mates = [m for m in potential_mates if np.linalg.norm(m.position - self.position) <= 40.0]
 
             if potential_mates:
                 if np.random.random() < 0.5:
@@ -117,12 +117,12 @@ class Rabbit(Animal):
 
 class Fox(Animal):
     def __init__(self, x, y):
-        # Max Energy = 150, Initial Energy = 94, Movement Speed = 15.0, Base Metabolism = 1.0
-        super().__init__(x, y, max_energy=150.0, initial_energy=94.0, speed=15.0, base_metabolism=1.0)
-        self.vision_range = 30.0 # Decreased from 50.0 for balance
+        # Max Energy = 150, Initial Energy = 94, Movement Speed = 15.0, Base Metabolism = 0.8
+        super().__init__(x, y, max_energy=150.0, initial_energy=94.0, speed=15.0, base_metabolism=0.8)
+        self.vision_range = 14.0
         self.catch_distance = 2.0
-        self.hunt_success_prob = 0.8
-        self.energy_transfer_efficiency = 0.3
+        self.hunt_success_prob = 0.4
+        self.energy_transfer_efficiency = 0.35
 
     def detect_prey(self, env) -> list:
         """Queries environment for rabbits within vision R_v = 10.0"""
@@ -149,7 +149,7 @@ class Fox(Animal):
                     move_vector = (direction / dist) * self.speed
                 
                 self.move(move_vector, env.bounds)
-                self.metabolize()
+                self.metabolize(env.metabolism_mult)
                 self.reproduce(env, potential_mates)
                 return
 
@@ -181,12 +181,12 @@ class Fox(Animal):
             move_vector = np.array([np.cos(angle), np.sin(angle)]) * self.speed
 
         self.move(move_vector, env.bounds)
-        self.metabolize()
+        self.metabolize(env.metabolism_mult)
         self.reproduce(env, None)
 
     def reproduce(self, env, potential_mates):
         from entities import Fox
-        # Reproduction: E > 95, success probability 0.75, cost 40
+        # Reproduction: E > 95, success probability 0.35, cost 40
         if self.energy > 95.0:
             if potential_mates is None:
                 nearby_foxes = env.get_foxes_in_radius(self.position, radius=25.0) # Increased 5x from 5
@@ -195,7 +195,7 @@ class Fox(Animal):
             potential_mates = [m for m in potential_mates if np.linalg.norm(m.position - self.position) <= 10.0]
 
             if potential_mates:
-                if np.random.random() < 0.75:
+                if np.random.random() < 0.25:
                     mate = potential_mates[0]
                     # Spawn new fox nearby
                     env.foxes.append(Fox(self.position[0], self.position[1]))
