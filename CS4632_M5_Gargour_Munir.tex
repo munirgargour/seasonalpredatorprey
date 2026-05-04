@@ -148,7 +148,7 @@ The simulation is implemented in Python 3.13. Core libraries include NumPy for f
 \end{itemize}
 
 \subsection{Challenges Overcome}
-A major challenge was the performance bottleneck of spatial queries as populations grew. Early implementations using naive distance calculations scaled at (N^2)$, making large populations unfeasible. Integrating SciPy's KD-Tree reduced query times to (N \log N)$, allowing the simulation to handle thousands of entities smoothly.
+A major challenge was the performance bottleneck of spatial queries as populations grew. Early implementations using naive distance calculations scaled at $O(N^2)$, making large populations unfeasible. Integrating SciPy's KD-Tree reduced query times to $O(N \log N)$, allowing the simulation to handle thousands of entities smoothly.
 
 % =============================================================================
 \section{Experimental Setup}
@@ -199,6 +199,48 @@ Data is collected continuously during the simulation. A time-series CSV records 
 \end{tabular}
 \end{table}
 
+\subsection{Parameter Sensitivity Analysis}
+Sensitivity analysis demonstrates how changes in initial inputs affect simulation results. The baseline run (001) is used as a reference point.
+
+\begin{table}[H]
+\centering
+\caption{Parameter Sensitivity Analysis (Relative to Baseline)}
+\small
+\begin{tabular}{llccc}
+\toprule
+\textbf{Parameter} & \textbf{Input Change} & \textbf{Metric} & \textbf{New Output} & \textbf{Sensitivity} \\
+\midrule
+Init Rabbits & $100 \rightarrow 200$ (+100\%) & Avg Foxes & 21.35 (vs 20.41) & 0.046 \\
+Init Foxes & $5 \rightarrow 20$ (+300\%) & Avg Rabbits & 109.36 (vs 188.64) & 0.140 \\
+Init Grass & $200 \rightarrow 50$ (-75\%) & Max Rabbits & 509 (vs 544) & 0.086 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The average rabbit population drops significantly only when starting with a high number of predators. Otherwise, sensitivity across the board remains mostly under 1.0. This indicates that the system is self-balancing; whether starting with extra predators or fewer resources, predator-prey dynamics drive the populations back to similar steady-state levels.
+
+\subsection{Statistical Analysis}
+To account for spatial encounter stochasticity, 30 baseline simulations were executed with different random seeds.
+
+\begin{table}[H]
+\centering
+\caption{Statistical outcomes over 30 baseline simulations}
+\small
+\begin{tabular}{lrrcc}
+\toprule
+\textbf{Metric} & \textbf{Mean} & \textbf{Std Dev} & \textbf{Min -- Max} & \textbf{95\% CI} \\
+\midrule
+Average Rabbits & 187.74 & 16.09 & 158.79 -- 217.11 & [181.98, 193.50] \\
+Max Rabbits & 547.41 & 35.53 & 464.16 -- 607.27 & [534.69, 560.12] \\
+Average Foxes & 20.23 & 2.81 & 14.32 -- 26.06 & [19.22, 21.23] \\
+Max Foxes & 54.59 & 3.46 & 48.09 -- 59.85 & [53.35, 55.83] \\
+Total Grass Eaten & 9372.54 & 127.84 & 9003.18 -- 9627.08 & [9326.80, 9418.29] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Across the 30 runs, results were highly consistent. The 95\% confidence intervals for population metrics stay tight around the mean, confirming that simulation behavior is robust to random spatial variation.
+
 \subsection{Predator-Prey Lag Effect}
 In all runs, fox population peaks consistently lag behind rabbit population peaks by approximately 50 to 100 steps. This is the classic Lotka-Volterra delay: rabbits must first accumulate in large numbers before foxes have sufficient prey encounters to breed and grow their own population.
 
@@ -231,14 +273,17 @@ Under doubled Winter metabolism (Run 007), rabbit populations reached a minimum 
 \section{Validation and Verification}
 % =============================================================================
 
-\subsection{Validation Methods Used}
-The model was validated through sensitivity analysis and boundary condition testing. By running extreme scenarios (e.g., massive initial populations, zero predators), the system's behavior was checked against expected ecological outcomes.
+\subsection{Face Validation}
+In all runs, the fox population peaks roughly 50 to 100 steps after the rabbit population peaks. This explicitly matches real-life predator-prey delays because predators require time to consume prey before their numbers can increase.
 
-\subsection{Evidence of Correctness}
-Run 010 utilized a different random seed but produced macro-level dynamics nearly identical to the baseline (Run 001), confirming that the emergent behavior is robust and not an artifact of a specific random number sequence. Additionally, the observed phase lag between predator and prey peaks perfectly aligns with established Lotka-Volterra theory, verifying the fundamental correctness of the interaction logic.
+\subsection{Extreme Conditions Validation}
+Reducing winter grass and doubling metabolism costs (Run 007) resulted in the harshest rabbit population crashes. The system successfully managed these limits without causing rabbits to go fully extinct, demonstrating ecological resilience within plausible bounds.
+
+\subsection{Parameter Validation}
+The animal metabolism rates lead to realistic starvation delays. Animals do not instantly die when hungry, but rather survive until their energy hits zero, ensuring natural lifespan trajectories during famines.
 
 \subsection{Limitations Acknowledged}
-The simulation operates as a closed system with no immigration or emigration. This leads to permanent local extinction events (e.g., foxes dying out in 9 out of 10 runs). In real ecosystems, migration plays a key role in repopulating depleted areas.
+The $500 \times 500$ simulation space is closed off. Since animals cannot enter the simulation from outside boundaries, foxes eventually go extinct during harsh winters. In real ecosystems, migration plays a key role in repopulating depleted areas.
 
 % =============================================================================
 \section{Discussion}
@@ -257,14 +302,14 @@ These findings highlight the vulnerability of specialized predators to environme
 \section{Conclusion and Future Work}
 % =============================================================================
 
-\subsection{Summary of Contributions}
-This project successfully delivered a robust, high-performance continuous 2D agent-based simulation. The integration of spatial KD-Trees and dynamic seasonal environments provides a powerful framework for exploring complex ecological interactions beyond simple grid models.
+\subsection{Model Strengths and Weaknesses}
+The primary strength of the model is that the simulation operates efficiently without restrictive grid tiles, creating incredibly natural-looking movement paths and interactions via KD-Tree spatial queries. A key limitation is the closed boundary system: since animals cannot migrate into the simulation from outside boundaries, predator extinction becomes inevitable following severe winter prey crashes.
 
-\subsection{Lessons Learned}
-A key lesson was the delicate balance required in parameter tuning. Small adjustments to metabolism or vision range drastically altered macro-level outcomes. Additionally, the transition from an (N^2)$ distance check to an (N \log N)$ KD-Tree query was a vital lesson in the importance of appropriate data structures for simulation scalability.
+\subsection{Conclusions}
+Initial population sizes matter less than seasonal constraints; the system eventually settles into a consistent carrying capacity regardless of starting numbers. Winter remains the primary stressor for predators, as foxes easily survive if severe winter metabolism penalties are removed (as seen in the mild seasons run).
 
 \subsection{Future Research Directions}
-Future improvements should include open-system dynamics (migration), more complex cognitive behaviors for agents (e.g., flocking or pack hunting), and the introduction of a third trophic level (e.g., an apex predator or a competing prey species) to study more complex food web stability.
+A recommended fix for future versions would be adding a migration rule, allowing a few random foxes to enter the simulation from the boundaries during later rabbit booms to restart the cycle. Furthermore, adding more complex cognitive behaviors (e.g., flocking or pack hunting) could provide even deeper insights into spatial ecosystem dynamics.
 
 % =============================================================================
 \section{References}
